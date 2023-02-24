@@ -6,8 +6,6 @@
 //    list_of_results functions.
 // Execute `rustlings hint iterators3` to get some hints!
 
-// I AM NOT DONE
-
 #[derive(Debug, PartialEq, Eq)]
 pub enum DivisionError {
     NotDivisible(NotDivisibleError),
@@ -37,10 +35,10 @@ pub fn divide(a: i32, b: i32) -> Result<i32, DivisionError> {
 
 // Complete the function and return a value of the correct type so the test passes.
 // Desired output: Ok([1, 11, 1426, 3])
-fn result_with_list() -> Vec<Result<i32, DivisionError>> {
+fn result_with_list() -> Result<Vec<i32>, DivisionError> {
     let numbers = vec![27, 297, 38502, 81];
-    let division_results = numbers.into_iter().map(|n| divide(n, 27));
-    division_results
+    let division_results = numbers.into_iter().map(|n| divide(n, 27).unwrap()).collect();
+    Ok(division_results)
 }
 
 // Complete the function and return a value of the correct type so the test passes.
