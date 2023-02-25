@@ -10,8 +10,6 @@
 //
 // Make the code compile and the tests pass.
 
-// I AM NOT DONE
-
 use std::collections::HashMap;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -34,7 +32,13 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // map is a hashmap with String keys and Progress values.
     // map = { "variables1": Complete, "from_str": None, ... }
-    map.into_values().filter(|x| x == &value).collect::<Vec<Progress>>().len()
+    let result = map
+        .values()
+        .cloned()
+        .filter(|&x| x == value)
+        .collect::<Vec<_>>()
+        .len();
+    result
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -53,9 +57,17 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
     //     { "variables2": Complete, ... }, ... ]
-    let temp = collection.iter().map(|map| map.clone().into_values().filter(|x| x == &value).collect::<Vec<Progress>>());
-    println!("{:#?}", temp);
-    temp.len()
+    let mut count = 0;
+    collection.iter().map(|map| {
+        count += map
+            .clone()
+            .values()
+            .cloned()
+            .filter(|x| x == &value)
+            .collect::<Vec<Progress>>()
+            .len()
+    }).count();
+    count
 }
 
 #[cfg(test)]
