@@ -24,6 +24,7 @@ impl From<CreationError> for ParsePosNonzeroError {
     fn from(e: CreationError) -> Self {
         // TODO: complete this implementation so that the `?` operator will
         // work for `CreationError`
+        ParsePosNonzeroError::Creation(e)
     }
 }
 
@@ -37,7 +38,7 @@ impl FromStr for PositiveNonzeroInteger {
     type Err = ParsePosNonzeroError;
     fn from_str(s: &str) -> Result<PositiveNonzeroInteger, Self::Err> {
         let x: i64 = s.parse()?;
-        Ok(PositiveNonzeroInteger::new(x)?)
+        PositiveNonzeroInteger::new(x)
     }
 }
 
